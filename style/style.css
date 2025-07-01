@@ -25,6 +25,23 @@ header, footer {
   box-shadow: 0 0 12px rgba(255, 153, 0, 0.2);
 }
 
+@media screen and (max-width: 768px) {
+  main.grid-layout {
+    flex-direction: column !important;
+    align-items: center;
+  }
+
+  .upload-box, .share-box {
+    width: 90% !important;
+    max-width: 100%;
+    margin: 10px 0;
+  }
+
+  table th, table td {
+    font-size: 0.9rem;
+  }
+}
+
 /* === Navigation Buttons === */
 .nav button, .nav-button {
   background: linear-gradient(145deg, #ff9900, #ffaa33);
@@ -187,6 +204,7 @@ table {
   backdrop-filter: blur(6px);
   color: #fff;
   border-radius: 12px;
+  table-layout: fixed; /* FIX 1 */
   overflow: hidden;
   box-shadow: 0 0 12px rgba(255, 153, 0, 0.15);
 }
@@ -198,6 +216,10 @@ thead {
 th, td {
   padding: 12px 15px;
   max-width: 20px;
+  word-wrap: break-word;      /* FIX 2 */
+  overflow-wrap: break-word;  /* FIX 3 */
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-align: center;
   border-bottom: 1px solid rgba(255, 153, 0, 0.1);
 }
