@@ -37,11 +37,11 @@ header, footer {
     margin: 10px 0;
   }
 
-  table th, table td {
-    font-size: 0.9rem;
+  th, td {
+    font-size: 14px;
+    padding: 10px 6px;
   }
 }
-
 /* === Navigation Buttons === */
 .nav button, .nav-button {
   background: linear-gradient(145deg, #ff9900, #ffaa33);
@@ -214,7 +214,7 @@ thead {
 }
 
 th, td {
-  padding: 12px 15px;
+  padding: 5px 5px;
   max-width: 20px;
   word-wrap: break-word;      /* FIX 2 */
   overflow-wrap: break-word;  /* FIX 3 */
