@@ -25,23 +25,76 @@ header, footer {
   box-shadow: 0 0 12px rgba(255, 153, 0, 0.2);
 }
 
-@media screen and (max-width: 768px) {
-  main.grid-layout {
-    flex-direction: column !important;
-    align-items: center;
+/* 🔥 RESPONSIVE BOOST FOR MOBILE VIEW 🔥 */
+@media (max-width: 768px) {
+  section {
+    padding: 30px 20px;
+    margin: 20px 10px;
+    max-width: 100%;
+    font-size: 1.1rem;
   }
 
   .upload-box, .share-box {
-    width: 90% !important;
-    max-width: 100%;
-    margin: 10px 0;
+    width: 90%;
   }
 
-  th, td {
-    font-size: 14px;
-    padding: 10px 6px;
+  input, button {
+    font-size: 1.1rem;
+    padding: 14px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .table-container {
+    max-height: none;
+    overflow-y: auto;
+  }
+
+  table th, table td {
+    font-size: 1.05rem;
+    padding: 12px 8px;
+    word-break: break-word;
+  }
+
+  .left-buttons button {
+    padding: 10px 16px;
+    font-size: 1rem;
+  }
+
+  .main-heading {
+    font-size: 1.5rem;
+  }
+
+  .logo-title {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo {
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .features-row {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .feature-block h3 {
+    font-size: 1.3rem;
+  }
+
+  .feature-block p {
+    font-size: 1rem;
   }
 }
+
 /* === Navigation Buttons === */
 .nav button, .nav-button {
   background: linear-gradient(145deg, #ff9900, #ffaa33);
