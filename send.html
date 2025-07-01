@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Document type declaration and language set to English -->
+
+<!-- 🔤 Font Style for Page -->
+<style>
+  body { font-family: 'Adamina', serif; } /* Sets elegant serif font globally */
+</style>
+
+<head>
+  <meta charset="UTF-8" /> <!-- Character encoding -->
+  <title>Send Files - ShareeAcross</title> <!-- Tab title -->
+
+  <!-- 🌍 External stylesheet for layout and UI -->
+  <link rel="stylesheet" href="style/style.css" />
+</head>
+
+<body>
+  <!-- 🧭 Top Navigation Bar -->
+  <header class="topbar">
+    <div class="logo-title">
+      <img src="assets/logo.png" alt="Logo" class="logo small-logo" /> <!-- App Logo -->
+      <h1 class="main-heading">ShareeAcross</h1> <!-- Main heading -->
+    </div>
+    <div class="left-buttons"> <!-- Top nav buttons -->
+      <button class="nav-button" onclick="location.href='info.html'">ℹ️ Info</button>
+      <button class="nav-button" onclick="location.href='contact.html'">📞 Contact</button>
+    </div>
+  </header>
+
+  <!-- 🧱 Main Grid Layout with Upload & Share Info -->
+  <main class="grid-layout">
+    
+    <!-- 📤 Upload Section -->
+    <section class="upload-box">
+      <h2>Upload Files</h2>
+      
+      <!-- 📁 File Input -->
+      <input type="file" id="files" multiple />
+
+      <!-- 📊 Upload Progress Bar -->
+      <div id="progressBarContainer" style="width: 100%; background: #333; border-radius: 8px; margin-top: 15px; height: 24px; overflow: hidden;">
+        <div id="progressBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ff9900, #ffaa33); transition: width 0.2s ease;"></div>
+      </div>
+
+      <!-- ⬆️ Upload Button -->
+      <button id="uploadBtn">Upload</button>
+
+      <!-- 📄 File List Table -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr><th>File Name</th><th>Type</th><th>Size</th></tr>
+          </thead>
+          <tbody id="fileDetails"></tbody> <!-- Populated dynamically -->
+        </table>
+      </div>
+    </section>
+
+    <!-- 🔐 Share Info Section -->
+    <section class="share-box">
+      <h2>Share Info</h2>
+      
+      <!-- 🔢 6-digit Share Code -->
+      <p><h2>6-digit Code: <strong id="shareCode">-</strong></h2></p>
+
+      <!-- 🔗 Generated Shareable Link -->
+      <p>Link: <a id="shareLink" href="#" target="_blank">Generating...</a></p>
+
+      <!-- 📷 QR Code Display -->
+      <div id="qr"></div>
+
+      <!-- 📱 Social Share Icons -->
+      <div class="icons">
+        <img src="https://img.icons8.com/color/48/whatsapp--v1.png" title="Share on WhatsApp" onclick="share('whatsapp')" />
+        <img src="https://img.icons8.com/color/48/gmail.png" title="Share through gmail" onclick="share('gmail')" />
+        <img src="https://img.icons8.com/color/48/linkedin.png" title="Share on linkedin" onclick="share('linkedin')" />
+      </div>
+    </section>
+  </main>
+
+  <!-- 🧠 JavaScript Functionality -->
+  <script>
+    // 🌐 Grab references to HTML elements
+    const filesInput = document.getElementById('files');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const fileDetails = document.getElementById('fileDetails');
+    const shareCodeSpan = document.getElementById("shareCode");
+    const shareLink = document.getElementById("shareLink");
+    const qrDiv = document.getElementById("qr");
+    let shareCode = ""; // Global share code
+
+    // 🔃 On Page Load
+    window.onload = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      shareCode = urlParams.get('code'); // Get ?code=XYZ from URL
+
+      if (!shareCode) {
+        alert("No code found. Redirecting...");
+        window.location.href = "index.html";
+        return;
+      }
+
+      // 🧾 Update UI with code and generated link
+      shareCodeSpan.textContent = shareCode;
+      const fullLink = `${window.location.origin}/receive.html?code=${shareCode}`;
+      shareLink.href = fullLink;
+      shareLink.textContent = fullLink;
+
+      // 📷 Generate QR Code
+      qrDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(fullLink)}&size=140x140" />`;
+    };
+
+    // 📄 Preview file details when selected
+    filesInput.addEventListener('change', () => {
+      fileDetails.innerHTML = '';
+      for (const file of filesInput.files) {
+        fileDetails.innerHTML += `<tr>
+          <td>${file.name}</td>
+          <td>${file.type || 'Unknown'}</td>
+          <td>${(file.size / 1024).toFixed(1)} KB</td>
+        </tr>`;
+      }
+    });
+
+    // ⬆️ Handle Upload on Click
+    uploadBtn.onclick = async () => {
+      const formData = new FormData();
+      for (const file of filesInput.files) {
+        formData.append('files', file); // Append each file
+      }
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", `/upload?code=${shareCode}`, true); // Backend endpoint with code
+
+      // 📊 Handle progress bar
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const percent = Math.round((e.loaded / e.total) * 100);
+          document.getElementById("progressBar").style.width = percent + "%";
+        }
+      };
+
+      // ✅ Upload completion
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          alert("Files uploaded!");
+          document.getElementById("progressBar").style.width = "100%";
+        } else {
+          alert("Upload failed!");
+        }
+      };
+
+      xhr.send(formData); // 🚀 Fire the upload
+    };
+
+    // 🔗 Share across social platforms
+    function share(platform) {
+      const code = shareCode;
+      const fullLink = `${window.location.origin}/receive.html?code=${code}`;
+      let url = '';
+
+      switch (platform) {
+        case 'whatsapp':
+          url = `https://wa.me/?text=🔗 ShareeAcross Link: ${encodeURIComponent(fullLink)}`;
+          break;
+        case 'gmail':
+          url = `mailto:?subject=Files via ShareeAcross&body=Here's your link: ${encodeURIComponent(fullLink)}`;
+          break;
+        case 'linkedin':
+          url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(fullLink)}`;
+          break;
+        default:
+          return;
+      }
+
+      window.open(url, '_blank'); // Open share link in new tab
+    }
+  </script>
+
+</body>
+</html>

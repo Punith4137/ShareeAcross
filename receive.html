@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Set document type and language -->
+
+<head>
+  <meta charset="UTF-8" /> <!-- Character encoding -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Responsive scaling on devices -->
+  <title>Receive Files - ShareeAcross</title> <!-- Tab title -->
+
+  <!-- 🌍 Link to main CSS stylesheet -->
+  <link rel="stylesheet" href="style/style.css" />
+
+  <!-- 🖋️ Google Font: Adamina (serif for elegant typography) -->
+  <link href="https://fonts.googleapis.com/css2?family=Adamina&display=swap" rel="stylesheet" />
+
+  <!-- 🧾 Inline font style for body -->
+  <style>
+    body {
+      font-family: 'Adamina', serif;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🧭 Top Navigation Bar -->
+  <header class="topbar">
+    <div class="logo-title"> <!-- Logo + Title section -->
+      <img src="assets/logo.png" alt="Logo" class="logo small-logo" />
+      <h1 class="main-heading">ShareeAcross</h1>
+    </div>
+    <div class="left-buttons"> <!-- Navigation buttons -->
+      <button class="nav-button" onclick="location.href='info.html'">ℹ️ Info</button>
+      <button class="nav-button" onclick="location.href='contact.html'">📞 Contact</button>
+    </div>
+  </header>
+
+  <!-- 🔧 Main Layout for Receiving Files -->
+  <main class="grid-layout">
+    
+    <!-- 🔢 Code Input Section -->
+    <section class="upload-box">
+      <h2>Enter the Code</h2>
+      <input type="text" id="code" placeholder="Enter 6-digit code" /> <!-- User enters code -->
+      <button onclick="connect()">Connect</button> <!-- Triggers fetching files -->
+    </section>
+
+    <!-- 📄 Display Files Section -->
+    <section class="share-box">
+      <h2>Available Files</h2>
+      
+      <!-- 📋 File Table -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>Type</th>
+              <th>Size</th>
+              <th>Download</th>
+            </tr>
+          </thead>
+          <tbody id="fileList"></tbody> <!-- Files will be injected dynamically -->
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- ⚙️ JavaScript Logic -->
+  <script>
+    // 🔌 Called when user clicks "Connect"
+    function connect() {
+      const code = document.getElementById('code').value.trim().toUpperCase(); // Get & clean the code
+      if (!code) return; // Exit if empty
+
+      fetch(`/files/${code}`) // API call to server to fetch file list
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById('fileList');
+          list.innerHTML = ''; // Clear any existing rows
+
+          // If no files found
+          if (!data.files || data.files.length === 0) {
+            list.innerHTML = '<tr><td colspan="4">No files found for this code.</td></tr>';
+          } else {
+            // Loop through each file and create a table row
+            data.files.forEach(file => {
+              if (file.name === ".createdAt") return; // Skip internal file
+
+              const ext = file.name.split('.').pop(); // Get extension
+              const sizeKB = (file.size / 1024).toFixed(2) + " KB"; // Convert size to KB
+
+              // Append file row to table
+              list.innerHTML += `
+                <tr>
+                  <td>${file.name}</td>
+                  <td>${ext}</td>
+                  <td>${sizeKB}</td>
+                  <td class="download-btn">
+                    <a href="/uploads/${code}/${file.name}" download>Download</a>
+                  </td>
+                </tr>`;
+            });
+          }
+        })
+        .catch(err => {
+          console.error("❌ Error fetching files:", err);
+          document.getElementById('fileList').innerHTML =
+            '<tr><td colspan="4">An error occurred. Please try again.</td></tr>';
+        });
+    }
+
+    // 📦 If ?code=XYZ present in URL, auto-connect
+    window.onload = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      if (code) {
+        document.getElementById('code').value = code;
+        connect(); // Auto-fetch files for that code
+      }
+    };
+  </script>
+</body>
+</html>

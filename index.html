@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Declare document as HTML5 and set language to English -->
+<head>
+  <meta charset="UTF-8" /> <!-- Character encoding for universal text support -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Makes it responsive on all devices -->
+  <title>ShareeAcross</title> <!-- Title shown on browser tab -->
+
+  <!-- Link to external CSS file for styling -->
+  <link rel="stylesheet" href="style/style.css" />
+
+  <!-- Link Google Font 'Adamina' for elegant serif typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Adamina&display=swap" rel="stylesheet" />
+
+  <!-- Inline style to apply 'Adamina' font to body -->
+  <style>
+    body { font-family: 'Adamina', serif; }
+  </style>
+</head>
+
+<body>
+  <!-- 🌐 Topbar/Header Section -->
+  <header class="topbar">
+    <div class="logo-title"> <!-- Contains logo and title -->
+      <img src="assets/logo.png" alt="Logo" class="logo small-logo" /> <!-- Logo image -->
+      <h1 class="main-heading" color="#ffaa33">ShareeAcross</h1> <!-- Main heading (text) -->
+    </div>
+    <div class="left-buttons"> <!-- Navigation buttons -->
+      <button class="nav-button" onclick="location.href='info.html'">ℹ️ Info</button> <!-- Info page -->
+      <button class="nav-button" onclick="location.href='contact.html'">📞 Contact</button> <!-- Contact page -->
+    </div>
+  </header>
+
+  <!-- 🚀 Hero Section (Main Call to Action) -->
+  <main class="hero-section">
+    <section class="feature-sectionn"> <!-- Highlighted central block -->
+      <div class="hero-text"> <!-- Contains heading and description -->
+        <h1 class="main-heading">ShareeAcross</h1> <!-- Central title again -->
+        <p class="sub-heading">
+          Shareeacross is a simple, fast, and secure file-sharing platform built to make sharing files across devices and users effortless. 
+          Whether you're sending documents, images, videos, or any other files.
+        </p>
+      </div>
+      <div class="hero-buttons"> <!-- Buttons to navigate to sharing functionality -->
+        <button onclick="goToSend()">Send Files</button> <!-- Calls JS function to generate a code and go to Send -->
+        <button onclick="location.href='receive.html'">Receive Files</button> <!-- Navigates to receive page -->
+      </div>
+    </section>
+  </main>
+
+  <!-- 🌟 Features Section -->
+  <div class="features-wrapper"> <!-- Container for all features -->
+    
+    <!-- Feature 1: Instant Sharing -->
+    <section class="feature-section">
+      <h3>Instant Sharing</h3>
+      <p>
+        ShareeAcross lets you transfer files seamlessly between any devices using a simple 6-digit code — no cables, sign-ins, or apps needed.
+        Just generate the code on one device, enter it on the other, and your files move instantly.
+      </p>
+    </section>
+
+    <!-- Feature 2: Private & Safe -->
+    <section class="feature-section">
+      <h3>Private & Safe</h3>
+      <p>
+        Your files are never stored in the cloud, ensuring complete privacy.<br>
+        All transfers are direct and encrypted for maximum security.<br>
+        Files auto-delete within 5 hours from the server, leaving no digital footprint behind.
+      </p>
+    </section>
+
+    <!-- Feature 3: Cross-Platform -->
+    <section class="feature-section">
+      <h3>Cross-Platform</h3>
+      <p>
+        Enjoy true flexibility with cross-platform support — send and receive files on phones, tablets, or laptops.<br>
+        It works seamlessly across all major browsers, no app downloads needed.<br>
+        Whether you're on Android, iOS, Windows, or macOS, it just works.
+      </p>
+    </section>
+  </div>
+
+  <!-- 🧠 JavaScript to generate random 6-digit code and navigate to send.html -->
+  <script>
+    function goToSend() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Characters to choose from
+      let code = '';
+      for (let i = 0; i < 6; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length)); // Pick random characters
+      }
+      window.location.href = `send.html?code=${code}`; // Navigate to send.html with code in query param
+    }
+  </script>
+
+  <!-- Optional: External JS functionality (can handle dynamic actions later) -->
+  <script src="js/main.js"></script>
+</body>
+</html>
