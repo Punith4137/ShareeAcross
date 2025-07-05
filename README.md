@@ -20,15 +20,15 @@
 
 > Explore the look and flow of ShareeAcross 👇
 
-<p align="center">
-  <img src="assets/1p.png" width="600"/>
-  <img src="assets/2p.png" width="600"/>
-  <img src="assets/3p.png" width="600"/>
-  <img src="assets/4p.png" width="600"/>
-  <img src="assets/5p.png" width="600"/>
-  <img src="assets/6p.png" width="600"/>
-  <img src="assets/7p.png" width="600"/>
-</p>
+| Screen | Description |
+|--------|-------------|
+| ![](assets/1p.png) | Homepage interface |
+| ![](assets/2p.png) | Info page |
+| ![](assets/3p.png) | contact page |
+| ![](assets/4p.png) | Send Files page |
+| ![](assets/5p.png) | Receive files page |
+| ![](assets/6p.png) | Send files page after uploading files |
+| ![](assets/7p.png) | Receive files page after uploading files |
 
 ---
 
@@ -63,20 +63,6 @@
 - Sending files between phone and laptop 💻📱
 - Quick transfer in classrooms, offices, events 🔁
 - No sign-in, no cloud syncing – **just fast and direct** ⚡
-
----
-
-## 📸 Screenshot Summary
-
-| Screen | Description |
-|--------|-------------|
-| ![](assets/1p.png) | Homepage interface |
-| ![](assets/2p.png) | Info page |
-| ![](assets/3p.png) | contact page |
-| ![](assets/4p.png) | Send Files page |
-| ![](assets/5p.png) | Receive files page |
-| ![](assets/6p.png) | Send files page after uploading files |
-| ![](assets/7p.png) | Receive files page after uploading files |
 
 ---
 
